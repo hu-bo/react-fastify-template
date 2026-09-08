@@ -2,4 +2,4 @@ node_modules/
 dist/
 .env
 *.log
-apps/api/openapi.json
+apps/server/openapi.json

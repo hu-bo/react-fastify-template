@@ -14,6 +14,9 @@ importers:
       eslint:
         specifier: ^9.19.0
         version: 9.39.5
+      prettier:
+        specifier: ^3.6.2
+        version: 3.9.6
       typescript:
         specifier: ^5.7.3
         version: 5.9.3
@@ -21,7 +24,7 @@ importers:
         specifier: ^8.22.0
         version: 8.70.0(eslint@9.39.5)(typescript@5.9.3)
 
-  apps/api:
+  apps/server:
     dependencies:
       '@fastify/swagger':
         specifier: ^9.4.0
@@ -29,9 +32,6 @@ importers:
       '@fastify/swagger-ui':
         specifier: ^5.2.0
         version: 5.2.6
-      '@react-fastify-template/database':
-        specifier: workspace:*
-        version: link:../../packages/database
       dotenv:
         specifier: ^16.4.7
         version: 16.6.1
@@ -47,6 +47,9 @@ importers:
       fastify-type-provider-zod:
         specifier: ^4.0.2
         version: 4.0.2(fastify@5.12.3)(zod@3.25.76)
+      pg:
+        specifier: ^8.13.1
+        version: 8.23.0
       zod:
         specifier: ^3.24.1
         version: 3.25.76
@@ -54,28 +57,15 @@ importers:
       '@types/node':
         specifier: ^22.10.5
         version: 22.20.1
-      tsx:
-        specifier: ^4.19.2
-        version: 4.23.13
-
-  packages/database:
-    dependencies:
-      dotenv:
-        specifier: ^16.4.7
-        version: 16.6.1
-      drizzle-orm:
-        specifier: ^0.45.2
-        version: 0.45.2(@types/pg@8.23.1)(gel@2.2.0)(pg@8.23.0)
-      pg:
-        specifier: ^8.13.1
-        version: 8.23.0
-    devDependencies:
       '@types/pg':
         specifier: ^8.11.10
         version: 8.23.1
       drizzle-kit:
         specifier: ^0.30.1
         version: 0.30.6
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.13
 
 packages:
 
@@ -84,11 +74,11 @@ packages:
 
   '@esbuild-kit/core-utils@3.3.2':
     resolution: {integrity: sha512-sPRAnw9CdSsRmEtnsl2WXWdyquogVpB3yZ3dgwJfe8zrOzTsV7cJvmwrKVa+0ma5BoiGJ+BoqkMvawbayKUsqQ==}
-    deprecated: 'Merged into tsx: https://tsx.hirok.io'
+    deprecated: 'Merged into tsx: https://tsx.is'
 
   '@esbuild-kit/esm-loader@2.6.5':
     resolution: {integrity: sha512-FxEMIkJKnodyA1OaCUoEvbYRkoZlLZ4d/eXFu9Fh8CbBBgP5EmZxrfTRyN0qpXZ4vOvqnE5YdRdcrmUUXuU+dA==}
-    deprecated: 'Merged into tsx: https://tsx.hirok.io'
+    deprecated: 'Merged into tsx: https://tsx.is'
 
   '@esbuild/aix-ppc64@0.19.12':
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
@@ -1283,6 +1273,11 @@ packages:
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+
+  prettier@3.9.6:
+    resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   process-warning@4.0.1:
     resolution: {integrity: sha512-3c2LzQ3rY9d0hc1emcsHhfT9Jwz0cChib/QN89oME2R451w5fy3f0afAhERFZAwrbDU43wk12d0ORBpDVME50Q==}
@@ -2512,6 +2507,8 @@ snapshots:
       xtend: 4.0.2
 
   prelude-ls@1.2.1: {}
+
+  prettier@3.9.6: {}
 
   process-warning@4.0.1: {}
 
