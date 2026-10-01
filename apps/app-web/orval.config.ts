@@ -1,10 +1,10 @@
 import { defineConfig } from 'orval';
 
 export default defineConfig({
-  workflow: {
-    input: { target: '../workflow-server/openapi.json' },
+  projects: {
+    input: { target: '../app-server/openapi.json' },
     output: {
-      target: './src/api/generated/workflow-api.ts',
+      target: './src/api/generated/projects-api.ts',
       schemas: './src/api/generated/models',
       mode: 'split',
       client: 'react-query',
@@ -16,9 +16,9 @@ export default defineConfig({
         fetch: { includeHttpResponseReturnType: false },
         query: { useQuery: true, useMutation: false, signal: true },
         operations: {
-          createWorkflow: { query: { useQuery: false, useMutation: true } },
-          updateWorkflow: { query: { useQuery: false, useMutation: true } },
-          deleteWorkflow: { query: { useQuery: false, useMutation: true } },
+          createProject: { query: { useQuery: false, useMutation: true } },
+          updateProject: { query: { useQuery: false, useMutation: true } },
+          deleteProject: { query: { useQuery: false, useMutation: true } },
         },
       },
     },

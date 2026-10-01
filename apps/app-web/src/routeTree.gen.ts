@@ -10,68 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root';
 import { Route as IndexRouteImport } from './routes/index';
-import { Route as WorkflowsIndexRouteImport } from './routes/workflows/index';
-import { Route as WorkflowsWorkflowIdRouteImport } from './routes/workflows/$workflowId';
-import { Route as WorkflowsNewRouteImport } from './routes/workflows/new';
+import { Route as ProjectsIndexRouteImport } from './routes/projects/index';
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any);
-const WorkflowsIndexRoute = WorkflowsIndexRouteImport.update({
-  id: '/workflows/',
-  path: '/workflows/',
-  getParentRoute: () => rootRouteImport,
-} as any);
-const WorkflowsWorkflowIdRoute = WorkflowsWorkflowIdRouteImport.update({
-  id: '/workflows/$workflowId',
-  path: '/workflows/$workflowId',
-  getParentRoute: () => rootRouteImport,
-} as any);
-const WorkflowsNewRoute = WorkflowsNewRouteImport.update({
-  id: '/workflows/new',
-  path: '/workflows/new',
+const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
   getParentRoute: () => rootRouteImport,
 } as any);
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute;
-  '/workflows/$workflowId': typeof WorkflowsWorkflowIdRoute;
-  '/workflows/new': typeof WorkflowsNewRoute;
-  '/workflows/': typeof WorkflowsIndexRoute;
+  '/projects/': typeof ProjectsIndexRoute;
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute;
-  '/workflows/$workflowId': typeof WorkflowsWorkflowIdRoute;
-  '/workflows/new': typeof WorkflowsNewRoute;
-  '/workflows': typeof WorkflowsIndexRoute;
+  '/projects': typeof ProjectsIndexRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
   '/': typeof IndexRoute;
-  '/workflows/$workflowId': typeof WorkflowsWorkflowIdRoute;
-  '/workflows/new': typeof WorkflowsNewRoute;
-  '/workflows/': typeof WorkflowsIndexRoute;
+  '/projects/': typeof ProjectsIndexRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/' | '/workflows/$workflowId' | '/workflows/new' | '/workflows/';
+  fullPaths: '/' | '/projects/';
   fileRoutesByTo: FileRoutesByTo;
-  to: '/' | '/workflows/$workflowId' | '/workflows/new' | '/workflows';
-  id:
-    | '__root__'
-    | '/'
-    | '/workflows/$workflowId'
-    | '/workflows/new'
-    | '/workflows/';
+  to: '/' | '/projects';
+  id: '__root__' | '/' | '/projects/';
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
-  WorkflowsWorkflowIdRoute: typeof WorkflowsWorkflowIdRoute;
-  WorkflowsNewRoute: typeof WorkflowsNewRoute;
-  WorkflowsIndexRoute: typeof WorkflowsIndexRoute;
+  ProjectsIndexRoute: typeof ProjectsIndexRoute;
 }
 
 declare module '@tanstack/react-router' {
@@ -83,25 +58,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
-    '/workflows/': {
-      id: '/workflows/';
-      path: '/workflows';
-      fullPath: '/workflows/';
-      preLoaderRoute: typeof WorkflowsIndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    '/workflows/$workflowId': {
-      id: '/workflows/$workflowId';
-      path: '/workflows/$workflowId';
-      fullPath: '/workflows/$workflowId';
-      preLoaderRoute: typeof WorkflowsWorkflowIdRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    '/workflows/new': {
-      id: '/workflows/new';
-      path: '/workflows/new';
-      fullPath: '/workflows/new';
-      preLoaderRoute: typeof WorkflowsNewRouteImport;
+    '/projects/': {
+      id: '/projects/';
+      path: '/projects';
+      fullPath: '/projects/';
+      preLoaderRoute: typeof ProjectsIndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
   }
@@ -109,9 +70,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  WorkflowsWorkflowIdRoute: WorkflowsWorkflowIdRoute,
-  WorkflowsNewRoute: WorkflowsNewRoute,
-  WorkflowsIndexRoute: WorkflowsIndexRoute,
+  ProjectsIndexRoute: ProjectsIndexRoute,
 };
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

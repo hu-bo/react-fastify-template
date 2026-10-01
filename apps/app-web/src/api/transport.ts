@@ -7,9 +7,10 @@ const envelope = z.object({
   details: z.object({ field: z.string() }).optional(),
 });
 const messages: Record<string, string> = {
-  NOT_FOUND: '这个工作流不存在或已被删除。',
-  CONFLICT: '这个标识已被使用，请换一个。',
+  NOT_FOUND: '这个项目不存在或已被删除。',
+  CONFLICT: '项目名称已被使用，请换一个。',
   INVALID_INPUT: '请检查填写的内容后重试。',
+  VALIDATION_ERROR: '请检查填写的内容后重试。',
   PAYLOAD_TOO_LARGE: '提交的内容过大，请精简后重试。',
 };
 

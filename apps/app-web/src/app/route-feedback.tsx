@@ -22,19 +22,13 @@ export function RouteError({ error }: ErrorComponentProps) {
     <div role="alert" className="rounded-2xl border bg-card px-6 py-16 text-center">
       <AlertCircle className="mx-auto mb-4 text-muted-foreground" size={32} />
       <h1 className="text-xl font-semibold">
-        {error instanceof ApiError && error.status === 404
-          ? 'Workflow not found'
-          : '暂时无法打开页面'}
+        {error instanceof ApiError && error.status === 404 ? '项目不存在' : '暂时无法打开页面'}
       </h1>
       <p className="mt-3 text-sm text-muted-foreground">{errorMessage(error)}</p>
       <div className="mt-6 flex flex-wrap justify-center gap-3">
-        <Link
-          to="/workflows"
-          search={{ limit: 20, offset: 0 }}
-          className={buttonVariants({ variant: 'outline' })}
-        >
+        <Link to="/projects" className={buttonVariants({ variant: 'outline' })}>
           <ArrowLeft size={16} />
-          返回工作流
+          返回项目空间
         </Link>
         <Button onClick={() => void router.invalidate()}>重新加载</Button>
       </div>
@@ -47,12 +41,8 @@ export function RouteNotFound() {
     <div className="py-20 text-center">
       <p className="text-sm text-muted-foreground">404 / PAGE NOT FOUND</p>
       <h1 className="mt-3 text-2xl font-semibold">这里还没有内容</h1>
-      <Link
-        to="/workflows"
-        search={{ limit: 20, offset: 0 }}
-        className={buttonVariants({ variant: 'outline', className: 'mt-6' })}
-      >
-        返回工作流
+      <Link to="/projects" className={buttonVariants({ variant: 'outline', className: 'mt-6' })}>
+        返回项目空间
       </Link>
     </div>
   );

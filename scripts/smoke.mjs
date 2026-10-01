@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import process from "node:process";
 import console from "node:console";
-import { buildApp } from "../apps/server/dist/src/app.js";
-import { loadConfig } from "../apps/server/dist/src/config.js";
+import { buildApp } from "../apps/app-server/dist/src/app.js";
+import { loadConfig } from "../apps/app-server/dist/src/config.js";
 
 // Use a disposable database: this check creates and removes a project.
 assert.ok(process.env.DATABASE_URL, "DATABASE_URL must point to a disposable database");
