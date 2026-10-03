@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { errorResponseSchema } from "../../shared/error.schema.js";
 import { paginationQuerySchema } from "../../shared/pagination.schema.js";
+import { okEnvelope, success } from "../../shared/response.schema.js";
 
 export const projectSchema = z.object({
   id: z.string().uuid(),
@@ -16,6 +17,6 @@ export const updateProjectBodySchema = createProjectBodySchema
   .refine((body) => Object.keys(body).length > 0, "At least one field must be supplied");
 export const projectParamsSchema = z.object({ id: z.string().uuid() }).strict();
 export const projectListSchema = z.object({ items: z.array(projectSchema) });
-export { errorResponseSchema, paginationQuerySchema };
+export { errorResponseSchema, okEnvelope, paginationQuerySchema, success };
 export type CreateProjectInput = z.infer<typeof createProjectBodySchema>;
 export type UpdateProjectInput = z.infer<typeof updateProjectBodySchema>;

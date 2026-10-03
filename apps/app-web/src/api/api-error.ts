@@ -1,6 +1,13 @@
 export class ApiError extends Error {
   constructor(
+    /**
+     * 数字错误码,与后端统一信封的 code 对齐:
+     * - 业务错误:HTTP 200 + 信封 code(400/404/409…),此处为信封 code;
+     * - 基础设施错误:真实 HTTP 状态码(404/500…);
+     * - 网络失败:0。
+     */
     public readonly status: number,
+    /** 字符串业务码(后端信封的 subCode,如 NOT_FOUND / VALIDATION_ERROR / NETWORK_ERROR) */
     public readonly code: string,
     message: string,
     public readonly requestId?: string,

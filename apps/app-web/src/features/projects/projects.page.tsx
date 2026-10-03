@@ -24,8 +24,8 @@ import {
   getListProjectsQueryKey,
   getListProjectsQueryOptions,
   updateProject,
-} from '@/api/generated/projects-api';
-import type { ListProjects200ItemsItem } from '@/api/generated/models';
+} from '@/api/generated/projects';
+import type { ListProjects200ItemsItem } from '@/api/generated/projectsAPI.schemas';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,

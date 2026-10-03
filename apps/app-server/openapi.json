@@ -2,7 +2,8 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Projects API",
-    "version": "0.1.0"
+    "version": "0.1.0",
+    "description": "所有响应使用统一信封。成功与业务错误均返回 HTTP 200:\n成功 `{ code: 200, message, data }`;\n业务错误 `{ code: 400/404/409…, subCode, message, requestId, details? }`(subCode 供前端精确分支)。\n仅基础设施/协议错误(路由不存在 404、请求体畸形 400、内部崩溃 500 等)返回真实 HTTP 状态码,body 为同样的错误信封。"
   },
   "components": {
     "schemas": {}
@@ -22,15 +23,35 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "string",
+                    "code": {
+                      "type": "number",
                       "enum": [
-                        "ok"
+                        200
                       ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "ok"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "additionalProperties": false
                     }
                   },
                   "required": [
-                    "status"
+                    "code",
+                    "message",
+                    "data"
                   ],
                   "additionalProperties": false
                 }
@@ -54,15 +75,69 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "string",
+                    "code": {
+                      "type": "number",
                       "enum": [
-                        "ok"
+                        200
                       ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "ok"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "additionalProperties": false
                     }
                   },
                   "required": [
-                    "status"
+                    "code",
+                    "message",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "subCode": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId"
                   ],
                   "additionalProperties": false
                 }
@@ -99,39 +174,93 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "createdAt": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "updatedAt": {
-                            "type": "string",
-                            "format": "date-time"
+                    "code": {
+                      "type": "number",
+                      "enum": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "createdAt",
+                              "updatedAt"
+                            ],
+                            "additionalProperties": false
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name",
-                          "createdAt",
-                          "updatedAt"
-                        ],
-                        "additionalProperties": false
-                      }
+                        }
+                      },
+                      "required": [
+                        "items"
+                      ],
+                      "additionalProperties": false
                     }
                   },
                   "required": [
-                    "items"
+                    "code",
+                    "message",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "subCode": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "requestId"
                   ],
                   "additionalProperties": false
                 }
@@ -167,41 +296,7 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "format": "uuid"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "updatedAt": {
-                      "type": "string",
-                      "format": "date-time"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "name",
-                    "createdAt",
-                    "updatedAt"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "400": {
+          "200": {
             "description": "Default Response",
             "content": {
               "application/json": {
@@ -209,6 +304,63 @@
                   "type": "object",
                   "properties": {
                     "code": {
+                      "type": "number",
+                      "enum": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "createdAt",
+                        "updatedAt"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "subCode": {
                       "type": "string"
                     },
                     "message": {
@@ -260,65 +412,54 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "string",
-                      "format": "uuid"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "updatedAt": {
-                      "type": "string",
-                      "format": "date-time"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "name",
-                    "createdAt",
-                    "updatedAt"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
                     "code": {
-                      "type": "string"
+                      "type": "number",
+                      "enum": [
+                        200
+                      ]
                     },
                     "message": {
                       "type": "string"
                     },
-                    "requestId": {
-                      "type": "string"
-                    },
-                    "details": {
+                    "data": {
                       "type": "object",
-                      "additionalProperties": {}
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "createdAt",
+                        "updatedAt"
+                      ],
+                      "additionalProperties": false
                     }
                   },
                   "required": [
                     "code",
                     "message",
-                    "requestId"
+                    "data"
                   ],
                   "additionalProperties": false
                 }
               }
             }
           },
-          "404": {
+          "500": {
             "description": "Default Response",
             "content": {
               "application/json": {
@@ -326,6 +467,9 @@
                   "type": "object",
                   "properties": {
                     "code": {
+                      "type": "integer"
+                    },
+                    "subCode": {
                       "type": "string"
                     },
                     "message": {
@@ -393,65 +537,54 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "string",
-                      "format": "uuid"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "updatedAt": {
-                      "type": "string",
-                      "format": "date-time"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "name",
-                    "createdAt",
-                    "updatedAt"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
                     "code": {
-                      "type": "string"
+                      "type": "number",
+                      "enum": [
+                        200
+                      ]
                     },
                     "message": {
                       "type": "string"
                     },
-                    "requestId": {
-                      "type": "string"
-                    },
-                    "details": {
+                    "data": {
                       "type": "object",
-                      "additionalProperties": {}
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "createdAt",
+                        "updatedAt"
+                      ],
+                      "additionalProperties": false
                     }
                   },
                   "required": [
                     "code",
                     "message",
-                    "requestId"
+                    "data"
                   ],
                   "additionalProperties": false
                 }
               }
             }
           },
-          "404": {
+          "500": {
             "description": "Default Response",
             "content": {
               "application/json": {
@@ -459,6 +592,9 @@
                   "type": "object",
                   "properties": {
                     "code": {
+                      "type": "integer"
+                    },
+                    "subCode": {
                       "type": "string"
                     },
                     "message": {
@@ -501,20 +637,7 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "enum": [
-                    "null"
-                  ],
-                  "nullable": true
-                }
-              }
-            }
-          },
-          "400": {
+          "200": {
             "description": "Default Response",
             "content": {
               "application/json": {
@@ -522,30 +645,32 @@
                   "type": "object",
                   "properties": {
                     "code": {
-                      "type": "string"
+                      "type": "number",
+                      "enum": [
+                        200
+                      ]
                     },
                     "message": {
                       "type": "string"
                     },
-                    "requestId": {
-                      "type": "string"
-                    },
-                    "details": {
-                      "type": "object",
-                      "additionalProperties": {}
+                    "data": {
+                      "enum": [
+                        "null"
+                      ],
+                      "nullable": true
                     }
                   },
                   "required": [
                     "code",
                     "message",
-                    "requestId"
+                    "data"
                   ],
                   "additionalProperties": false
                 }
               }
             }
           },
-          "404": {
+          "500": {
             "description": "Default Response",
             "content": {
               "application/json": {
@@ -553,6 +678,9 @@
                   "type": "object",
                   "properties": {
                     "code": {
+                      "type": "integer"
+                    },
+                    "subCode": {
                       "type": "string"
                     },
                     "message": {
