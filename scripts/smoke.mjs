@@ -16,7 +16,7 @@ try {
   const live = await app.inject({ url: "/health/live" });
   assert.deepEqual(live.json(), { code: 200, message: "ok", data: { status: "ok" } });
 
-  // Service-level validation error: HTTP 200 + numeric code / subCode.
+  // Service-level validation error: HTTP 200 + numeric code;subCode 为保留字段,当前不赋值。
   const invalid = await app.inject({
     method: "POST",
     url: "/api/projects/",
@@ -24,7 +24,7 @@ try {
   });
   assert.equal(invalid.statusCode, 200);
   assert.equal(invalid.json().code, 400);
-  assert.equal(invalid.json().subCode, "VALIDATION_ERROR");
+  assert.equal(invalid.json().subCode, undefined);
 
   // Protocol-level error (malformed JSON body): keeps the real HTTP status.
   const malformed = await app.inject({
@@ -35,7 +35,7 @@ try {
   });
   assert.equal(malformed.statusCode, 400);
   assert.equal(malformed.json().code, 400);
-  assert.equal(malformed.json().subCode, "BAD_REQUEST");
+  assert.equal(malformed.json().subCode, undefined);
 
   // Success: always HTTP 200 + { code: 200, message, data }.
   const created = await app.inject({
@@ -60,7 +60,7 @@ try {
   const badLimit = await app.inject({ url: "/api/projects/?limit=101" });
   assert.equal(badLimit.statusCode, 200);
   assert.equal(badLimit.json().code, 400);
-  assert.equal(badLimit.json().subCode, "VALIDATION_ERROR");
+  assert.equal(badLimit.json().subCode, undefined);
 
   const emptyPatch = await app.inject({
     method: "PATCH",
@@ -83,18 +83,18 @@ try {
   assert.equal(removed.json().code, 200);
   assert.equal(removed.json().data, null);
 
-  // Domain NOT_FOUND: HTTP 200 + code 404.
+  // Domain NOT_FOUND: HTTP 200 + code 404。
   const missing = await app.inject({ url: `/api/projects/${id}` });
   assert.equal(missing.statusCode, 200);
   assert.equal(missing.json().code, 404);
-  assert.equal(missing.json().subCode, "NOT_FOUND");
+  assert.equal(missing.json().subCode, undefined);
   id = undefined;
 
   // Unknown route: infrastructure error -> real HTTP 404.
   const unknownRoute = await app.inject({ url: "/missing" });
   assert.equal(unknownRoute.statusCode, 404);
   assert.equal(unknownRoute.json().code, 404);
-  assert.equal(unknownRoute.json().subCode, "ROUTE_NOT_FOUND");
+  assert.equal(unknownRoute.json().subCode, undefined);
 
   console.log(
     "Smoke passed: envelope contract, health, OpenAPI, CRUD, validation, protocol errors, domain errors.",

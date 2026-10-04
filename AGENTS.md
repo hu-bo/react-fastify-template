@@ -6,7 +6,7 @@
 
 feature 在 src/modules 内组装 repository 与 service；业务层不依赖 Fastify。
 Zod route contract 驱动 validation 和 OpenAPI；domain-error 由 root handler 映射。
-统一响应信封：成功与业务错误都返回 HTTP 200——成功 `{code:200,message,data}`（handler 必须用 `success()` 包裹），业务错误 `{code,subCode,message,requestId}`；仅基础设施/协议错误（路由不存在、请求体畸形、内部崩溃）返回真实 HTTP 状态码。约定见 `shared/response.schema.ts` 与 `plugins/errors.ts`。
+统一响应信封：成功与业务错误都返回 HTTP 200——成功 `{code:200,message,data}`（handler 必须用 `success()` 包裹），业务错误 `{code,message,requestId}`（subCode 为可选的保留 number 字段，目前不赋值）；仅基础设施/协议错误（路由不存在、请求体畸形、内部崩溃）返回真实 HTTP 状态码。约定见 `shared/response.schema.ts` 与 `plugins/errors.ts`。
 openapi.json 如实描述信封；前端 orval transformer 生成前把 2xx schema 拆包为 data 载荷、并剥离非 2xx 的内联错误信封（运行时统一抛 `ApiError`，错误类型无人消费），`transport.ts` 负责运行时解包并按信封 code 抛 `ApiError`（status 字段携带信封数字码）。生成产物为 tags 模式：每个 tag 一个 hooks 文件，全部 models 合并于单一 `*.schemas.ts`。
 OpenAPI 离线导出不连接数据库，正常启动先检查数据库。database 与 src 一起编译，入口为 dist/src/server.js。
 

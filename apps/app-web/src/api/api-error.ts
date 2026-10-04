@@ -7,7 +7,10 @@ export class ApiError extends Error {
      * - 网络失败:0。
      */
     public readonly status: number,
-    /** 字符串业务码(后端信封的 subCode,如 NOT_FOUND / VALIDATION_ERROR / NETWORK_ERROR) */
+    /**
+     * 错误来源标识(前端自行生成的字符串常量,如 NETWORK_ERROR / HTTP_ERROR /
+     * INVALID_RESPONSE / UNKNOWN);后端信封的 subCode 为保留字段,当前不向 ApiError.code 透传。
+     */
     public readonly code: string,
     message: string,
     public readonly requestId?: string,
